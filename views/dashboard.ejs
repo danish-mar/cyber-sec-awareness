@@ -1,0 +1,91 @@
+<div class="min-h-screen bg-material-bg py-12 px-6">
+    <div class="container mx-auto max-w-5xl">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12"
+            data-aos="fade-down">
+            <div>
+                <h1 class="hero-text text-4xl font-black text-material-text">
+                    <%= t.dashboard %>
+                </h1>
+                <p class="text-slate-500 font-bold text-xs uppercase tracking-widest mt-2">Welcome back, <%= user.name
+                        %>
+                </p>
+            </div>
+            <a href="/auth/logout" class="btn-material bg-red-600 text-white text-[10px]">
+                <%= t.logout %>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div class="card-material p-8 border-t-4 border-india-saffron" data-aos="fade-up">
+                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Total Reports</div>
+                <div class="hero-text text-4xl font-black text-india-saffron">
+                    <%= reports.length %>
+                </div>
+            </div>
+            <div class="card-material p-8 border-t-4 border-india-green" data-aos="fade-up" data-aos-delay="100">
+                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Active Signals</div>
+                <div class="hero-text text-4xl font-black text-india-green">
+                    <%= reports.length> 0 ? 1 : 0 %>
+                </div>
+            </div>
+            <div class="card-material p-8 border-t-4 border-material-text" data-aos="fade-up" data-aos-delay="200">
+                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Identity Status</div>
+                <div class="hero-text text-xl font-black text-material-text uppercase tracking-tighter">Verified Liaison
+                </div>
+            </div>
+        </div>
+
+        <div class="card-material overflow-hidden" data-aos="fade-up">
+            <div class="bg-material-text p-6 text-white flex justify-between items-center">
+                <h2 class="hero-text text-xl font-bold">Your Recent Signals</h2>
+                <i class="fa-solid fa-satellite-dish animate-pulse"></i>
+            </div>
+            <div class="p-0">
+                <% if (reports.length===0) { %>
+                    <div class="p-12 text-center text-slate-400 font-medium">
+                        No reports found. Help keep our community safe by reporting incidents.
+                    </div>
+                    <% } else { %>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr
+                                        class="bg-slate-50 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                                        <th class="px-6 py-4 border-b">ID</th>
+                                        <th class="px-6 py-4 border-b">Intelligence Description</th>
+                                        <th class="px-6 py-4 border-b">Date Transmitted</th>
+                                        <th class="px-6 py-4 border-b">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-sm font-medium text-slate-600">
+                                    <% reports.forEach(report=> { %>
+                                        <tr class="hover:bg-slate-50 transition-colors">
+                                            <td class="px-6 py-4 border-b font-bold text-xs">
+                                                <%= report._id.toString().substring(18) %>
+                                            </td>
+                                            <td class="px-6 py-4 border-b">
+                                                <%= report.issue.substring(0, 50) %>...
+                                            </td>
+                                            <td class="px-6 py-4 border-b">
+                                                <%= report.date.toLocaleDateString() %>
+                                            </td>
+                                            <td class="px-6 py-4 border-b">
+                                                <span
+                                                    class="px-3 py-1 bg-india-green/10 text-india-green text-[10px] rounded-full uppercase tracking-widest">Processed</span>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <% } %>
+            </div>
+        </div>
+
+        <div class="mt-12 text-center">
+            <a href="/#report" class="btn-material bg-india-saffron text-white">
+                Submit New Incident
+            </a>
+        </div>
+    </div>
+</div>

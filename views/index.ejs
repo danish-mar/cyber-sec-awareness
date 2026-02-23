@@ -1,0 +1,177 @@
+<!-- Hero -->
+<section id="home" class="bg-white border-b-8 border-india-green py-24 md:py-40 px-6">
+    <div class="container mx-auto max-w-5xl">
+        <div class="flex flex-col md:flex-row items-center gap-16">
+            <div class="flex-1" data-aos="fade-right">
+                <div
+                    class="inline-block bg-india-saffron/10 text-india-saffron px-4 py-1 font-bold text-[10px] uppercase tracking-[0.3em] mb-8 border-l-4 border-india-saffron">
+                    <%= t.welcome %>
+                </div>
+                <h1
+                    class="hero-text text-5xl md:text-7xl font-black text-material-text mb-8 leading-tight tracking-tighter">
+                    <%= t.hero_title.split(' ')[0] %> <span class="text-india-saffron"><%= t.hero_title.split(' ').slice(1).join(' ') %></span>
+                </h1>
+                <p class="text-slate-500 text-lg md:text-xl font-medium mb-12 leading-relaxed">
+                    <%= t.hero_sub %>
+                </p>
+                <div class="flex flex-wrap gap-6">
+                    <a href="#report" class="btn-material bg-material-text text-white px-10 py-5 hover:bg-black">
+                        <%= t.report_incident %>
+                    </a>
+                    <a href="#tips" class="btn-material bg-white text-material-text px-10 py-5 hover:bg-slate-50 border border-slate-200">
+                        <%= t.safety_guides %>
+                    </a>
+                </div>
+            </div>
+            <div class="flex-1 hidden md:block" data-aos="fade-left">
+                <div class="relative">
+                    <div class="absolute -top-10 -left-10 w-full h-full border-4 border-india-saffron z-0"></div>
+                    <div class="relative z-10 bg-material-text p-12 shadow-material-hard">
+                        <div class="hero-text text-white text-4xl font-extrabold mb-6">India Cyber Defense</div>
+                        <p class="text-slate-400 font-bold text-xs uppercase tracking-widest leading-loose">
+                            Knowledge is your strongest shield. Learn how to stay safe in India' s digital world. </p>
+                        <div class="mt-10 flex gap-4">
+                            <div class="w-12 h-2 bg-india-saffron"></div>
+                            <div class="w-12 h-2 bg-india-white"></div>
+                            <div class="w-12 h-2 bg-india-green"></div>
+                        </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+</section>
+
+<!-- Simple Safety Modules -->
+<section id="tips" class="py-24 px-6 bg-material-bg">
+    <div class="container mx-auto max-w-5xl">
+        <div class="text-center mb-20" data-aos="fade-up">
+            <h2 class="hero-text text-4xl md:text-5xl font-black mb-4">
+                <%= t.modules_title %>
+            </h2>
+            <div class="flex justify-center gap-2">
+                <div class="w-20 h-2 bg-india-saffron"></div>
+                <div class="w-20 h-2 bg-india-green"></div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <!-- Modular Card 1 -->
+            <div class="card-material p-12 border-t-8 border-india-saffron" data-aos="fade-right">
+                <div class="w-12 h-12 bg-india-saffron text-white flex items-center justify-center mb-8 shadow-md">
+                    <i class="fa-solid fa-person-dress text-2xl"></i>
+                </div>
+                <h3 class="hero-text text-3xl font-extrabold mb-6">
+                    <%= t.women_safety %>
+                </h3>
+                <p class="text-slate-500 font-medium mb-10 leading-relaxed text-lg">
+                    Simple steps to stay safe on WhatsApp, Instagram, and more. Avoid scams and protect your photos.
+                </p>
+                <div class="space-y-4">
+                    <div class="bg-slate-50 p-4 border-l-4 border-india-saffron font-bold text-sm">
+                        Keep your accounts private.
+                    </div>
+                    <div class="bg-slate-50 p-4 border-l-4 border-india-saffron font-bold text-sm">
+                        Don't share OTP or bank details.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modular Card 2 -->
+            <div class="card-material p-12 border-t-8 border-india-green" data-aos="fade-left">
+                <div class="w-12 h-12 bg-india-green text-white flex items-center justify-center mb-8 shadow-md">
+                    <i class="fa-solid fa-child text-2xl"></i>
+                </div>
+                <h3 class="hero-text text-3xl font-extrabold mb-6">
+                    <%= t.child_safety %>
+                </h3>
+                <p class="text-slate-500 font-medium mb-10 leading-relaxed text-lg">
+                    Teach children to browse safely. Prevent them from talking to strangers or visiting bad websites.
+                </p>
+                <div class="space-y-4">
+                    <div class="bg-slate-50 p-4 border-l-4 border-india-green font-bold text-sm">
+                        Supervise their internet time.
+                    </div>
+                    <div class="bg-slate-50 p-4 border-l-4 border-india-green font-bold text-sm">
+                        Enable "Safe Search" features.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Report Section -->
+<section id="report" class="py-24 px-6 bg-white">
+    <div class="container mx-auto max-w-4xl">
+        <div class="card-material overflow-hidden" data-aos="zoom-in">
+            <div class="bg-material-text p-10 text-white">
+                <h2 class="hero-text text-4xl font-black mb-2">
+                    <%= t.report_incident %>
+                </h2>
+                <p class="text-slate-400 font-bold text-[10px] uppercase tracking-[0.2em]">Confidential Help Request</p>
+            </div>
+            <form id="reportForm" class="p-10 md:p-16 space-y-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Your
+                            Name</label>
+                        <input type="text" id="name" name="name"
+                            class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 font-bold text-lg transition-colors placeholder:text-slate-300"
+                            placeholder="Optional" value="<%= user ? user.name : '' %>">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Problem
+                            Type</label>
+                        <select
+                            class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 font-bold text-lg bg-transparent">
+                            <option>Social Media Hack</option>
+                            <option>Money Scam</option>
+                            <option>Bad Messages</option>
+                            <option>Other Problem</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label
+                        class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Description</label>
+                    <textarea id="issue" name="issue" required rows="4"
+                        class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 font-bold text-lg transition-colors placeholder:text-slate-300"
+                        placeholder="Tell us what happened in simple words..."></textarea>
+                </div>
+                <button type="submit"
+                    class="btn-material bg-india-saffron text-white px-12 py-5 hover:bg-[#E68A2E] text-xs">
+                    Send Help Request
+                </button>
+            </form>
+            <div id="reportMsg" class="px-10 pb-10 text-center font-bold uppercase tracking-widest text-[10px]"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Resources -->
+<section id="resources" class="py-24 px-6 bg-material-bg">
+    <div class="container mx-auto">
+        <h2 class="hero-text text-4xl font-black text-center mb-16 underline decoration-india-green underline-offset-8">
+            <%= t.official_resources %>
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center text-material-text">
+            <a href="https://www.cybercrime.gov.in" target="_blank" class="card-material p-10 bg-white">
+                <i class="fa-solid fa-landmark text-4xl text-india-saffron mb-6"></i>
+                <h4 class="hero-text text-xl font-extrabold mb-4">India Gov Portal</h4>
+                <p class="text-slate-500 font-medium text-sm">The official website to file cyber complaints in India.
+                </p>
+            </a>
+            <a href="https://www.unicef.org" target="_blank" class="card-material p-10 bg-white">
+                <i class="fa-solid fa-shield-halved text-4xl text-india-green mb-6"></i>
+                <h4 class="hero-text text-xl font-extrabold mb-4">Protect Kids</h4>
+                <p class="text-slate-500 font-medium text-sm">International guides to keep children safe online.</p>
+            </a>
+            <a href="https://www.stopbullying.gov" target="_blank" class="card-material p-10 bg-white">
+                <i class="fa-solid fa-user-lock text-4xl text-material-text mb-6"></i>
+                <h4 class="hero-text text-xl font-extrabold mb-4">Stop Online Bullying</h4>
+                <p class="text-slate-500 font-medium text-sm">Helpful tools to prevent and stop online harassment.</p>
+            </a>
+        </div>
+    </div>
+</section>

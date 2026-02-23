@@ -1,0 +1,140 @@
+<div class="min-h-[85vh] flex items-center justify-center px-6 py-20 bg-material-bg">
+    <div class="w-full max-w-md bg-white shadow-material rounded-none border-t-8 border-india-saffron p-10"
+        data-aos="zoom-in">
+        <div class="text-center mb-10">
+            <h1 id="authTitle" class="hero-text text-3xl font-extrabold text-material-text mb-2">
+                <%= t.login %>
+            </h1>
+            <p id="authSub" class="text-slate-500 font-bold text-xs uppercase tracking-widest">Sign in to your secure
+                account</p>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="space-y-6">
+            <div class="space-y-2">
+                <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Mobile Number</label>
+                <input type="tel" name="phone" required pattern="[0-9]{10}"
+                    class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 font-bold text-lg transition-colors placeholder:text-slate-300"
+                    placeholder="10-digit number">
+            </div>
+            <div class="space-y-2">
+                <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Password</label>
+                <input type="password" name="password" required
+                    class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 font-bold text-lg transition-colors placeholder:text-slate-300"
+                    placeholder="••••••••">
+            </div>
+            <button type="submit" class="w-full btn-material bg-material-text text-white py-4 mt-4 hover:bg-black">
+                Authorized <%= t.login %>
+            </button>
+        </form>
+
+        <!-- Signup Form (Hidden by default) -->
+        <form id="signupForm" class="space-y-6 hidden">
+            <div class="space-y-2">
+                <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Full Name</label>
+                <input type="text" name="name" required
+                    class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 font-bold text-lg transition-colors placeholder:text-slate-300"
+                    placeholder="Your Name">
+            </div>
+            <div class="space-y-2">
+                <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Mobile Number</label>
+                <input type="tel" name="phone" required pattern="[0-9]{10}"
+                    class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 font-bold text-lg transition-colors placeholder:text-slate-300"
+                    placeholder="10-digit number">
+            </div>
+            <div class="space-y-2">
+                <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Password</label>
+                <input type="password" name="password" required
+                    class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 font-bold text-lg transition-colors placeholder:text-slate-300"
+                    placeholder="Choose a password">
+            </div>
+            <button type="submit" class="w-full btn-material bg-india-green text-white py-4 mt-4 hover:opacity-90">
+                Register Account
+            </button>
+        </form>
+
+        <div id="authMsg" class="mt-8 text-center text-[10px] font-bold uppercase tracking-widest"></div>
+
+        <div class="mt-10 pt-6 border-t border-slate-100 text-center">
+            <button id="toggleAuth"
+                class="text-[10px] font-extrabold uppercase tracking-widest text-india-saffron hover:underline">
+                New User? Create Account
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const toggleBtn = document.getElementById('toggleAuth');
+    const authTitle = document.getElementById('authTitle');
+    const authSub = document.getElementById('authSub');
+    const authMsg = document.getElementById('authMsg');
+
+    toggleBtn.addEventListener('click', () => {
+        const isLogin = !loginForm.classList.contains('hidden');
+        if (isLogin) {
+            loginForm.classList.add('hidden');
+            signupForm.classList.remove('hidden');
+            authTitle.innerText = '<%= t.signup %>';
+            authSub.innerText = 'Create your secure portal identity';
+            toggleBtn.innerText = 'Already have an account? <%= t.login %>';
+        } else {
+            signupForm.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+            authTitle.innerText = '<%= t.login %>';
+            authSub.innerText = 'Sign in to your secure account';
+            toggleBtn.innerText = 'New User? Create Account';
+        }
+    });
+
+    const handleAuth = async (form, url) => {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            const btn = form.querySelector('button');
+            const originalText = btn.innerText;
+
+            try {
+                btn.disabled = true;
+                btn.innerText = 'PROCESSING...';
+
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await res.json();
+
+                if (res.ok) {
+                    authMsg.className = 'mt-8 text-center text-[10px] font-bold uppercase tracking-widest text-india-green';
+                    authMsg.innerText = result.message;
+                    if (url.includes('login')) {
+                        if (result.user.role === 'admin') {
+                            setTimeout(() => window.location.href = '/admin', 1000);
+                        } else {
+                            setTimeout(() => window.location.href = '/dashboard', 1000);
+                        }
+                    } else {
+                        // Switch to login
+                        setTimeout(() => toggleBtn.click(), 1500);
+                    }
+                } else {
+                    authMsg.className = 'mt-8 text-center text-[10px] font-bold uppercase tracking-widest text-red-600';
+                    authMsg.innerText = result.message;
+                }
+            } catch (err) {
+                authMsg.innerText = 'CONNECTION ERROR';
+            } finally {
+                btn.disabled = false;
+                btn.innerText = originalText;
+            }
+        });
+    };
+
+    handleAuth(loginForm, '/auth/login');
+    handleAuth(signupForm, '/auth/signup');
+</script>

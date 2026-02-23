@@ -1,0 +1,113 @@
+<nav class="fixed top-0 left-0 w-full z-[100] bg-white shadow-md border-b-2 border-india-saffron/10">
+    <div class="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2 md:gap-3">
+            <div
+                class="w-6 h-6 md:w-8 md:h-8 flex flex-col border border-slate-100 shadow-sm overflow-hidden rounded-sm">
+                <div class="flex-1 bg-india-saffron"></div>
+                <div class="flex-1 bg-white border-y border-slate-50"></div>
+                <div class="flex-1 bg-india-green"></div>
+            </div>
+            <span class="hero-text text-lg md:text-xl font-black tracking-tight text-material-text">CyberSafe
+                India</span>
+        </a>
+
+        <div
+            class="hidden lg:flex items-center gap-6 xl:gap-8 uppercase text-[10px] font-bold tracking-widest text-slate-500">
+            <a href="/#home" class="hover:text-india-saffron transition-colors">
+                <%= t.home %>
+            </a>
+            <a href="/#tips" class="hover:text-india-saffron transition-colors">
+                <%= t.awareness %>
+            </a>
+            <a href="/#report" class="hover:text-india-saffron transition-colors">
+                <%= t.report %>
+            </a>
+            <a href="/#resources" class="hover:text-india-saffron transition-colors">
+                <%= t.resources %>
+            </a>
+            <% if (user) { %>
+                <a href="/dashboard" class="text-india-saffron">
+                    <%= t.dashboard %>
+                </a>
+                <% } %>
+        </div>
+
+        <div class="flex items-center gap-3 md:gap-4">
+            <!-- Language Toggle -->
+            <a href="?lang=<%= lang === 'en' ? 'hi' : 'en' %>"
+                class="text-[9px] md:text-[10px] font-black border-2 border-material-text px-2 md:px-3 py-1 hover:bg-material-text hover:text-white transition-all whitespace-nowrap">
+                <%= t.lang_switch %>
+            </a>
+
+            <% if (user) { %>
+                <div class="flex items-center gap-2 md:gap-3">
+                    <span class="hidden xl:block text-[10px] font-extrabold uppercase text-slate-400">Namaste, <%=
+                            user.name.split(' ')[0] %></span>
+                    <a href="/auth/logout" class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-red-600 transition-colors border border-slate-100">
+                        <i class="fa-solid fa-power-off text-xs"></i>
+                    </a>
+                </div>
+            <% } else { %>
+                <a href="/auth" class="btn-material bg-india-saffron text-white text-[9px] md:text-[10px] px-4 py-2">
+                    <%= t.login %>
+                </a>
+            <% } %>
+            
+            <button id="mobile-menu-btn" class="lg:hidden text-2xl text-material-text p-1">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="fixed inset-0 bg-white z-[150] hidden flex flex-col p-8 pt-24">
+    <button id="close-menu" class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center text-2xl border-2 border-slate-100 rounded-full">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+    
+    <div class="flex flex-col gap-8">
+        <a href="/#home" class="mobile-link text-3xl font-black uppercase tracking-tighter text-material-text hover:text-india-saffron transition-colors"><%= t.home %></a>
+        <a href="/#tips" class="mobile-link text-3xl font-black uppercase tracking-tighter text-material-text hover:text-india-saffron transition-colors"><%= t.awareness %></a>
+        <a href="/#report" class="mobile-link text-3xl font-black uppercase tracking-tighter text-material-text hover:text-india-saffron transition-colors"><%= t.report %></a>
+        <a href="/#resources" class="mobile-link text-3xl font-black uppercase tracking-tighter text-material-text hover:text-india-saffron transition-colors"><%= t.resources %></a>
+        
+        <div class="h-px bg-slate-100 my-4"></div>
+        
+        <% if (user) { %>
+            <a href="/dashboard" class="mobile-link text-3xl font-black uppercase tracking-tighter text-india-saffron"><%= t.dashboard %></a>
+            <a href="/auth/logout" class="mobile-link text-xl font-bold uppercase tracking-widest text-red-600 mt-4 flex items-center gap-3">
+                <i class="fa-solid fa-power-off"></i> <%= t.logout %>
+            </a>
+        <% } else { %>
+            <a href="/auth" class="mobile-link text-3xl font-black uppercase tracking-tighter text-india-saffron"><%= t.login %></a>
+        <% } %>
+    </div>
+
+    <div class="mt-auto pt-10 flex flex-col gap-4">
+        <div class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Digital India Initiative</div>
+        <div class="flex gap-4">
+            <div class="w-10 h-2 bg-india-saffron"></div>
+            <div class="w-10 h-2 bg-white border border-slate-100"></div>
+            <div class="w-10 h-2 bg-india-green"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener(' DOMContentLoaded', () => {
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('close-menu');
+        const menu = document.getElementById('mobile-menu');
+        const links = document.querySelectorAll('.mobile-link');
+
+        const toggleMenu = () => {
+            menu.classList.toggle('hidden');
+            document.body.classList.toggle('overflow-hidden');
+        };
+
+        if (menuBtn) menuBtn.addEventListener('click', toggleMenu);
+        if (closeBtn) closeBtn.addEventListener('click', toggleMenu);
+        links.forEach(link => link.addEventListener('click', toggleMenu));
+    });
+</script>

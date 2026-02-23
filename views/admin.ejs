@@ -1,0 +1,341 @@
+<div class="min-h-screen bg-material-bg py-12 px-6">
+    <div class="container mx-auto max-w-7xl">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12"
+            data-aos="fade-down">
+            <div>
+                <h1 class="hero-text text-4xl font-black text-material-text">National Admin Matrix <span
+                        class="text-india-saffron">2.0</span></h1>
+                <p class="text-slate-500 font-bold text-xs uppercase tracking-widest mt-2">Strategic Intelligence
+                    Division | <%= user.name %>
+                </p>
+            </div>
+            <div class="flex items-center gap-4">
+                <div
+                    class="px-4 py-2 bg-india-saffron text-white text-[10px] font-black uppercase tracking-widest animate-pulse">
+                    Master View Active</div>
+                <a href="/auth/logout" class="btn-material bg-red-600 text-white text-[10px]">
+                    <%= t.logout %>
+                </a>
+            </div>
+        </div>
+
+        <!-- Analytics Hub -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+            <!-- Stats Column -->
+            <div class="space-y-8">
+                <div class="card-material p-8 border-t-4 border-india-saffron" data-aos="fade-right">
+                    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Total Intelligence
+                    </div>
+                    <div class="hero-text text-5xl font-black text-india-saffron">
+                        <%= reports.length %>
+                    </div>
+                    <div class="text-[10px] font-bold text-slate-300 mt-4">RECORDED SIGNALS</div>
+                </div>
+                <div class="card-material p-8 border-t-4 border-india-green" data-aos="fade-right" data-aos-delay="100">
+                    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Unique Reporters
+                    </div>
+                    <div class="hero-text text-5xl font-black text-india-green">
+                        <%= [...new Set(reports.map(r=> r.userId ? r.userId._id.toString() : 'anon'))].length %>
+                    </div>
+                </div>
+                <div class="card-material p-8 border-t-4 border-material-text" data-aos="fade-right"
+                    data-aos-delay="200">
+                    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">System Health</div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
+                        <div class="hero-text text-xl font-black text-material-text uppercase tracking-tighter">
+                            Synchronized</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Chart Column (Line) -->
+            <div class="lg:col-span-2 card-material p-8" data-aos="fade-up">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-400">7-Day Signal Intensity
+                    </h3>
+                    <span
+                        class="text-[10px] font-bold text-india-saffron bg-india-saffron/5 px-3 py-1 border border-india-saffron/20 uppercase tracking-widest">Live
+                        Feed</span>
+                </div>
+                <div class="h-[300px]">
+                    <canvas id="signalsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+            <!-- Status Breakdown Chart -->
+            <div class="card-material p-8" data-aos="fade-up">
+                <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-8 text-center">Mandate
+                    Distribution</div>
+                <div class="h-[250px] flex items-center justify-center">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Master Stream Table -->
+            <div class="lg:col-span-2 card-material overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                <div
+                    class="bg-material-text p-6 text-white flex justify-between items-center border-b-4 border-india-saffron">
+                    <h2 class="hero-text text-xl font-bold uppercase tracking-tight">Intelligence Stream</h2>
+                    <div class="flex items-center gap-4">
+                        <span
+                            class="text-[10px] font-bold uppercase tracking-widest text-india-green flex items-center gap-2">
+                            Full Access Granted
+                        </span>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                                <th class="px-6 py-4 border-b">ID</th>
+                                <th class="px-6 py-4 border-b">Source</th>
+                                <th class="px-6 py-4 border-b">Content Snippet</th>
+                                <th class="px-6 py-4 border-b">Mandate</th>
+                                <th class="px-6 py-4 border-b text-right">Intervention</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm font-medium text-slate-600">
+                            <% reports.forEach(report=> { %>
+                                <tr class="report-row hover:bg-slate-50 transition-colors border-b border-slate-100 cursor-pointer"
+                                    data-report="<%= JSON.stringify(report) %>">
+                                    <td class="px-6 py-4 font-black text-[10px] text-slate-300">#<%=
+                                            report._id.toString().substring(18).toUpperCase() %>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <% if (report.userId) { %>
+                                            <div class="flex flex-col">
+                                                <span class="font-bold text-material-text">
+                                                    <%= report.userId.name %>
+                                                </span>
+                                                <span class="text-[9px] text-slate-400 font-extrabold uppercase">
+                                                    <%= report.userId.phone %>
+                                                </span>
+                                            </div>
+                                            <% } else { %>
+                                                <span
+                                                    class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Anonymous</span>
+                                                <% } %>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="max-w-[200px] truncate-2-lines text-xs leading-relaxed"
+                                            title="<%= report.issue %>">
+                                            <%= report.issue %>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-3 py-1 text-[8px] font-black uppercase tracking-tighter border-2 
+                                            <%= report.status === 'Resolved' ? 'border-india-green text-india-green' : 
+                                               report.status === 'Investigating' ? 'border-blue-600 text-blue-600' : 
+                                               report.status === 'Dismissed' ? 'border-red-600 text-red-600' : 'border-slate-300 text-slate-400' %>">
+                                            <%= report.status || 'Pending' %>
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button
+                                            class="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-india-saffron hover:text-white transition-all rounded-sm">
+                                            <i class="fa-solid fa-eye text-xs"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Intervention Modal (Simplified for v2.0) -->
+<div id="interventionModal" class="fixed inset-0 z-[200] hidden">
+    <div class="absolute inset-0 bg-material-text/90 backdrop-blur-md modal-close"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white shadow-2xl p-0 border-t-8 border-india-saffron"
+        data-aos="zoom-in">
+        <div class="p-10">
+            <div class="flex justify-between items-start mb-10">
+                <div>
+                    <h3 id="modalIdDisplay"
+                        class="hero-text text-3xl font-black text-material-text uppercase tracking-tight"></h3>
+                    <p id="modalSource" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1"></p>
+                </div>
+                <button
+                    class="modal-close w-10 h-10 flex items-center justify-center bg-slate-50 rounded-full hover:bg-red-50 hover:text-red-600 transition-all">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="mb-10">
+                <label class="text-[10px] font-black uppercase tracking-widest text-slate-300 mb-3 block">Signal
+                    Content</label>
+                <div id="modalIssue"
+                    class="p-6 bg-slate-50 border-l-4 border-india-saffron text-slate-700 font-bold leading-relaxed text-sm italic">
+                </div>
+            </div>
+
+            <form id="statusForm" class="space-y-8">
+                <input type="hidden" name="reportId" id="modalReportId">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black uppercase tracking-widest text-slate-300">Action
+                            Mandate</label>
+                        <select name="status" id="modalStatus"
+                            class="w-full border-b-2 border-slate-100 focus:border-india-saffron outline-none py-2 font-black uppercase text-xs bg-transparent">
+                            <option value="Pending">Pending Analysis</option>
+                            <option value="Investigating">Active Investigation</option>
+                            <option value="Resolved">Threat Resolved</option>
+                            <option value="Dismissed">Dismissed/False Alarm</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-4 pt-4">
+                    <button type="submit" class="btn-material bg-material-text text-white text-[10px] px-12 py-4">
+                        Update Control Mandate
+                    </button>
+                </div>
+            </form>
+            <div id="modalMsg" class="mt-8 text-center text-[10px] font-black uppercase tracking-widest"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Data from server
+        const dailyLabels = <%- JSON.stringify(analytics.dailyCounts.labels) %>;
+        const dailyData = <%- JSON.stringify(analytics.dailyCounts.data) %>;
+        const statusCounts = <%- JSON.stringify(analytics.statusCounts) %>;
+
+        // Signals Chart
+        const signalsCtx = document.getElementById('signalsChart').getContext('2d');
+        new Chart(signalsCtx, {
+            type: 'line',
+            data: {
+                labels: dailyLabels,
+                datasets: [{
+                    label: 'Signals Intercepted',
+                    data: dailyData,
+                    borderColor: '#FF9933',
+                    backgroundColor: 'rgba(255, 153, 51, 0.1)',
+                    borderWidth: 4,
+                    pointBackgroundColor: '#FF9933',
+                    pointRadius: 6,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { font: { weight: 'bold' } } },
+                    x: { grid: { display: false }, ticks: { font: { weight: 'bold' } } }
+                }
+            }
+        });
+
+        // Status Chart
+        const statusCtx = document.getElementById('statusChart').getContext('2d');
+        new Chart(statusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(statusCounts),
+                datasets: [{
+                    data: Object.values(statusCounts),
+                    backgroundColor: ['#cbd5e1', '#2563eb', '#138808', '#dc2626'],
+                    borderWidth: 0,
+                    hoverOffset: 20
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            font: { size: 10, weight: '900' },
+                            padding: 20
+                        }
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+
+        // Modal Logic
+        const modal = document.getElementById('interventionModal');
+        const rows = document.querySelectorAll('.report-row');
+        const closeBtns = document.querySelectorAll('.modal-close');
+        const statusForm = document.getElementById('statusForm');
+        const modalMsg = document.getElementById('modalMsg');
+
+        const openModal = (report) => {
+            document.getElementById('modalIdDisplay').innerText = '#' + report._id.substring(18).toUpperCase();
+            document.getElementById('modalSource').innerText = report.userId ? `${report.userId.name} | ${report.userId.phone}` : 'ANONYMOUS SOURCE';
+            document.getElementById('modalIssue').innerText = report.issue;
+            document.getElementById('modalReportId').value = report._id;
+            document.getElementById('modalStatus').value = report.status || 'Pending';
+
+            modal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+            modalMsg.innerText = '';
+        };
+
+        const closeModal = () => {
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        };
+
+        rows.forEach(row => {
+            row.addEventListener('click', () => {
+                const report = JSON.parse(row.dataset.report);
+                openModal(report);
+            });
+        });
+
+        closeBtns.forEach(btn => btn.addEventListener('click', closeModal));
+
+        statusForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const reportId = document.getElementById('modalReportId').value;
+            const status = document.getElementById('modalStatus').value;
+            const btn = statusForm.querySelector('button');
+            const originalText = btn.innerText;
+
+            try {
+                btn.disabled = true;
+                btn.innerText = 'EXECUTING...';
+
+                const res = await fetch(`/admin/report/${reportId}/status`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status })
+                });
+
+                if (res.ok) {
+                    modalMsg.className = 'text-center text-[10px] font-black uppercase tracking-widest text-india-green';
+                    modalMsg.innerText = 'MANDATE UPDATED SUCCESSFULLY';
+                    setTimeout(() => window.location.reload(), 1000);
+                } else {
+                    modalMsg.className = 'text-center text-[10px] font-black uppercase tracking-widest text-red-600';
+                    modalMsg.innerText = 'TRANSITION FAILED';
+                }
+            } catch (err) {
+                modalMsg.innerText = 'CONNECTION SEVERED';
+            } finally {
+                btn.disabled = false;
+                btn.innerText = originalText;
+            }
+        });
+    });
+</script>
