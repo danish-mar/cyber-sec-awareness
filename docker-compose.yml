@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: cybersafe-app
+    ports:
+      - "3087:3000"
+    restart: always
+    environment:
+      - NODE_ENV=production
