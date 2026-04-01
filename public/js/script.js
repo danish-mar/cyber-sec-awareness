@@ -17,9 +17,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const submitBtn = e.target.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerText;
 
+            let pt = '';
+            const ptSelect = document.getElementById('problemTypeSelect');
+            if (ptSelect) {
+                pt = ptSelect.value === 'Other Problem' 
+                    ? document.getElementById('customProblemInput').value || 'Other Problem'
+                    : ptSelect.value;
+            }
+
             const formData = {
                 name: document.getElementById('name').value,
-                issue: document.getElementById('issue').value
+                issue: pt ? `[${pt}] ${document.getElementById('issue').value}` : document.getElementById('issue').value
             };
 
             try {
