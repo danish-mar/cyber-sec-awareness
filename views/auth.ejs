@@ -63,8 +63,10 @@
             <div class="space-y-2 relative">
                 <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Password</label>
                 <input type="password" id="regPassword" name="password" required
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                    title="Must contain at least 8 characters, including at least one number and one uppercase and lowercase letter"
                     class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 pr-10 font-bold text-lg transition-colors placeholder:text-slate-300"
-                    placeholder="Choose a password">
+                    placeholder="Complex password">
                 <button type="button" onclick="togglePass('regPassword', this)" class="absolute right-2 bottom-3 text-slate-400 hover:text-material-text">
                     <i class="fa-solid fa-eye"></i>
                 </button>
@@ -72,8 +74,10 @@
             <div class="space-y-2 relative">
                 <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Confirm Password</label>
                 <input type="password" id="regConfirmPassword" required
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                    title="Must match the complex password above"
                     class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 pr-10 font-bold text-lg transition-colors placeholder:text-slate-300"
-                    placeholder="Confirm your password">
+                    placeholder="Confirm complex password">
                 <button type="button" onclick="togglePass('regConfirmPassword', this)" class="absolute right-2 bottom-3 text-slate-400 hover:text-material-text">
                     <i class="fa-solid fa-eye"></i>
                 </button>
