@@ -1030,7 +1030,7 @@
                         const statusLabel = report.status || 'Pending';
                         const sourceHtml = report.userId
                             ? `<span class="source-name">${escHtml(report.userId.name)}</span>
-           <span class="source-phone">${escHtml(report.userId.phone)}</span>`
+           <span class="source-phone"><a href="tel:${escHtml(report.userId.phone)}" style="color:var(--saffron); text-decoration:none; display:flex; align-items:center; gap:4px; margin-top:2px;" onclick="event.stopPropagation();"><i class="fa-solid fa-phone" style="font-size:0.5rem;"></i> ${escHtml(report.userId.phone)}</a></span>`
                             : `<span class="anon-tag">Anonymous</span>`;
 
                         const tr = document.createElement('tr');
@@ -1059,8 +1059,8 @@
 
             const openModal = (report) => {
                 document.getElementById('modalIdDisplay').textContent = '#' + report._id.substring(18).toUpperCase();
-                document.getElementById('modalSource').textContent = report.userId
-                    ? `${report.userId.name}  ·  ${report.userId.phone}`
+                document.getElementById('modalSource').innerHTML = report.userId
+                    ? `${escHtml(report.userId.name)}  ·  <a href="tel:${escHtml(report.userId.phone)}" style="color:var(--saffron); text-decoration:none;"><i class="fa-solid fa-phone px-1"></i> Call ${escHtml(report.userId.phone)}</a>`
                     : 'ANONYMOUS SOURCE';
                 document.getElementById('modalIssue').textContent = report.issue;
                 document.getElementById('modalReportId').value = report._id;
