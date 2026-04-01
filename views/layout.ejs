@@ -111,8 +111,8 @@
             text-transform: uppercase;
             border: none !important;
         }
-        .goog-te-menu-value { display: flex !important; align-items: center !important; }
-        .goog-te-menu-value span { border: none !important; padding: 0 !important; margin: 0 !important; }
+        .goog-te-menu-value { display: flex !important; align-items: center !important; gap: 8px; }
+        .goog-te-menu-value span { border: none !important; padding: 0 !important; margin: 0 !important; white-space: nowrap; }
         .goog-te-menu-value img { display: none !important; }
         .goog-te-gadget-icon { display: none !important; }
         .goog-tooltip { display: none !important; }
@@ -134,9 +134,9 @@
         <%- include('partials/footer') %>
 
         <!-- Floating Language Selector -->
-        <div class="fixed bottom-8 right-6 z-[300] bg-white rounded-full shadow-material-hard border-2 border-slate-100 flex items-center justify-center pl-4 pr-5 py-2 hover:shadow-lg transition-all hover:scale-105 cursor-pointer">
-            <i class="fa-solid fa-language text-xl text-india-saffron mr-2"></i>
-            <div id="google_translate_element" style="overflow:hidden;"></div>
+        <div class="fixed bottom-8 right-6 z-[300] bg-white rounded-full shadow-material-hard border-2 border-slate-100 flex items-center justify-center pl-4 pr-5 py-3 hover:shadow-lg transition-all hover:scale-105 cursor-pointer">
+            <i class="fa-solid fa-language text-2xl text-india-saffron mr-3"></i>
+            <div id="google_translate_element"></div>
         </div>
 
             <!-- Scripts -->
