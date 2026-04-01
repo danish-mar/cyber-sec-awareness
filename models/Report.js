@@ -8,7 +8,12 @@ const ReportSchema = new mongoose.Schema({
     name: {
         type: String,
         trim: true,
-        default: 'Anonymous'
+        required: true
+    },
+    phone: {
+        type: String,
+        trim: true,
+        required: true
     },
     issue: {
         type: String,

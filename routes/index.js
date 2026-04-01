@@ -11,9 +11,13 @@ router.get('/', (req, res) => {
 // Post Report
 router.post('/report', async (req, res) => {
     try {
-        const { name, issue } = req.body;
+        const { name, phone, issue } = req.body;
+        if (!name || !phone || !issue) {
+            return res.status(400).json({ message: 'Name, phone, and description are required.' });
+        }
         const reportData = {
-            name: name || 'Anonymous',
+            name,
+            phone,
             issue,
             status: 'Pending'
         };

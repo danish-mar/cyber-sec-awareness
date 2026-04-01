@@ -113,13 +113,25 @@
             </div>
             <form id="reportForm" class="p-10 md:p-16 space-y-10">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Your
-                            Name</label>
-                        <input type="text" id="name" name="name" pattern="[A-Za-z\s]+"
-                            oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');" title="Only alphabets are allowed"
-                            class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 font-bold text-lg transition-colors placeholder:text-slate-300"
-                            placeholder="Optional" value="<%= user ? user.name : '' %>">
+                    <div class="space-y-6">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Your
+                                Name</label>
+                            <input type="text" id="name" name="name" pattern="[A-Za-z\s]+" required
+                                oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');" title="Only alphabets are allowed"
+                                class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 font-bold text-lg transition-colors placeholder:text-slate-300"
+                                placeholder="Required" value="<%= user ? user.name : '' %>">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Mobile Number</label>
+                            <div class="flex items-center w-full border-b-2 border-slate-200 focus-within:border-india-saffron transition-colors">
+                                <span class="font-bold text-lg text-slate-500 mr-2 border-r pr-2">+91</span>
+                                <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" maxlength="10" minlength="10"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);"
+                                    class="w-full outline-none py-2 font-bold text-lg bg-transparent placeholder:text-slate-300"
+                                    placeholder="10-digit number" value="<%= user ? user.phone : '' %>">
+                            </div>
+                        </div>
                     </div>
                     <div class="space-y-2">
                         <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Problem

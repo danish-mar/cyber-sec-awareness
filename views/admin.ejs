@@ -1031,7 +1031,8 @@
                         const sourceHtml = report.userId
                             ? `<span class="source-name">${escHtml(report.userId.name)}</span>
            <span class="source-phone"><a href="tel:${escHtml(report.userId.phone)}" style="color:var(--saffron); text-decoration:none; display:flex; align-items:center; gap:4px; margin-top:2px;" onclick="event.stopPropagation();"><i class="fa-solid fa-phone" style="font-size:0.5rem;"></i> ${escHtml(report.userId.phone)}</a></span>`
-                            : `<span class="anon-tag">Anonymous</span>`;
+                            : `<span class="source-name">${escHtml(report.name)} (Guest)</span>
+           ${report.phone ? `<span class="source-phone"><a href="tel:${escHtml(report.phone)}" style="color:var(--saffron); text-decoration:none; display:flex; align-items:center; gap:4px; margin-top:2px;" onclick="event.stopPropagation();"><i class="fa-solid fa-phone" style="font-size:0.5rem;"></i> ${escHtml(report.phone)}</a></span>` : `<span class="anon-tag">Anonymous</span>`}`;
 
                         const tr = document.createElement('tr');
                         tr.className = 'report-row';
@@ -1061,7 +1062,7 @@
                 document.getElementById('modalIdDisplay').textContent = '#' + report._id.substring(18).toUpperCase();
                 document.getElementById('modalSource').innerHTML = report.userId
                     ? `${escHtml(report.userId.name)}  ·  <a href="tel:${escHtml(report.userId.phone)}" style="color:var(--saffron); text-decoration:none;"><i class="fa-solid fa-phone px-1"></i> Call ${escHtml(report.userId.phone)}</a>`
-                    : 'ANONYMOUS SOURCE';
+                    : `${escHtml(report.name)} (Guest)  ·  ${report.phone ? `<a href="tel:${escHtml(report.phone)}" style="color:var(--saffron); text-decoration:none;"><i class="fa-solid fa-phone px-1"></i> Call ${escHtml(report.phone)}</a>` : 'NO PHONE'}`;
                 document.getElementById('modalIssue').textContent = report.issue;
                 document.getElementById('modalReportId').value = report._id;
                 document.getElementById('modalStatus').value = report.status || 'Pending';

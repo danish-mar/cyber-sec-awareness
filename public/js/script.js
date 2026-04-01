@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const formData = {
                 name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
                 issue: pt ? `[${pt}] ${document.getElementById('issue').value}` : document.getElementById('issue').value
             };
 
