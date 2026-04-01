@@ -13,15 +13,22 @@
         <form id="loginForm" class="space-y-6">
             <div class="space-y-2">
                 <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Mobile Number</label>
-                <input type="tel" name="phone" required pattern="[0-9]{10}"
-                    class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 font-bold text-lg transition-colors placeholder:text-slate-300"
-                    placeholder="10-digit number">
+                <div class="flex items-center w-full border-b-2 border-slate-200 focus-within:border-india-saffron transition-colors">
+                    <span class="font-bold text-lg text-slate-500 mr-2 border-r pr-2">+91</span>
+                    <input type="tel" name="phone" required pattern="[0-9]{10}" maxlength="10" minlength="10"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);"
+                        class="w-full outline-none py-2 font-bold text-lg bg-transparent placeholder:text-slate-300"
+                        placeholder="10-digit number">
+                </div>
             </div>
-            <div class="space-y-2">
+            <div class="space-y-2 relative">
                 <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Password</label>
-                <input type="password" name="password" required
-                    class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 font-bold text-lg transition-colors placeholder:text-slate-300"
+                <input type="password" id="loginPassword" name="password" required
+                    class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 pr-10 font-bold text-lg transition-colors placeholder:text-slate-300"
                     placeholder="••••••••">
+                <button type="button" onclick="togglePass('loginPassword', this)" class="absolute right-2 bottom-3 text-slate-400 hover:text-material-text">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
             </div>
             <button type="submit" class="w-full btn-material bg-material-text text-white py-4 mt-4 hover:bg-black">
                 Authorized <%= t.login %>
@@ -32,21 +39,39 @@
         <form id="signupForm" class="space-y-6 hidden">
             <div class="space-y-2">
                 <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Full Name</label>
-                <input type="text" name="name" required
+                <input type="text" name="name" required pattern="[A-Za-z\s]+"
+                    oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');"
+                    title="Only alphabets are allowed"
                     class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 font-bold text-lg transition-colors placeholder:text-slate-300"
                     placeholder="Your Name">
             </div>
             <div class="space-y-2">
                 <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Mobile Number</label>
-                <input type="tel" name="phone" required pattern="[0-9]{10}"
-                    class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 font-bold text-lg transition-colors placeholder:text-slate-300"
-                    placeholder="10-digit number">
+                <div class="flex items-center w-full border-b-2 border-slate-200 focus-within:border-india-saffron transition-colors">
+                    <span class="font-bold text-lg text-slate-500 mr-2 border-r pr-2">+91</span>
+                    <input type="tel" name="phone" required pattern="[0-9]{10}" maxlength="10" minlength="10"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);"
+                        class="w-full outline-none py-2 font-bold text-lg bg-transparent placeholder:text-slate-300"
+                        placeholder="10-digit number">
+                </div>
             </div>
-            <div class="space-y-2">
+            <div class="space-y-2 relative">
                 <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Password</label>
-                <input type="password" name="password" required
-                    class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 font-bold text-lg transition-colors placeholder:text-slate-300"
+                <input type="password" id="regPassword" name="password" required
+                    class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 pr-10 font-bold text-lg transition-colors placeholder:text-slate-300"
                     placeholder="Choose a password">
+                <button type="button" onclick="togglePass('regPassword', this)" class="absolute right-2 bottom-3 text-slate-400 hover:text-material-text">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
+            </div>
+            <div class="space-y-2 relative">
+                <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Confirm Password</label>
+                <input type="password" id="regConfirmPassword" required
+                    class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 pr-10 font-bold text-lg transition-colors placeholder:text-slate-300"
+                    placeholder="Confirm your password">
+                <button type="button" onclick="togglePass('regConfirmPassword', this)" class="absolute right-2 bottom-3 text-slate-400 hover:text-material-text">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
             </div>
             <button type="submit" class="w-full btn-material bg-india-green text-white py-4 mt-4 hover:opacity-90">
                 Register Account
@@ -94,8 +119,18 @@
             e.preventDefault();
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
-            const btn = form.querySelector('button');
+            const btn = form.querySelector('button[type="submit"]');
             const originalText = btn.innerText;
+
+            if (form.id === 'signupForm') {
+                const pass = document.getElementById('regPassword').value;
+                const confirmPass = document.getElementById('regConfirmPassword').value;
+                if (pass !== confirmPass) {
+                    authMsg.className = 'mt-8 text-center text-[10px] font-bold uppercase tracking-widest text-red-600';
+                    authMsg.innerText = 'Passwords do not match';
+                    return;
+                }
+            }
 
             try {
                 btn.disabled = true;
@@ -137,4 +172,18 @@
 
     handleAuth(loginForm, '/auth/login');
     handleAuth(signupForm, '/auth/signup');
+
+    window.togglePass = function(id, btn) {
+        const input = document.getElementById(id);
+        const icon = btn.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    };
 </script>

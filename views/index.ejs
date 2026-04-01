@@ -116,7 +116,8 @@
                     <div class="space-y-2">
                         <label class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Your
                             Name</label>
-                        <input type="text" id="name" name="name"
+                        <input type="text" id="name" name="name" pattern="[A-Za-z\s]+"
+                            oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '');" title="Only alphabets are allowed"
                             class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 font-bold text-lg transition-colors placeholder:text-slate-300"
                             placeholder="Optional" value="<%= user ? user.name : '' %>">
                     </div>
@@ -126,8 +127,14 @@
                         <select
                             class="w-full border-b-2 border-slate-200 focus:border-india-saffron outline-none py-2 font-bold text-lg bg-transparent">
                             <option>Social Media Hack</option>
-                            <option>Money Scam</option>
-                            <option>Bad Messages</option>
+                            <option>Financial / Money Scam</option>
+                            <option>Cyberbullying / Harassment</option>
+                            <option>Identity Theft</option>
+                            <option>Phishing / Fake Links</option>
+                            <option>Ransomware / Malware</option>
+                            <option>Online Shopping Fraud</option>
+                            <option>Job / Employment Fraud</option>
+                            <option>Bad Messages / Content</option>
                             <option>Other Problem</option>
                         </select>
                     </div>
